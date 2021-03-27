@@ -27,12 +27,19 @@
         "codestar-connections:GetConnection"
       ],
       "Resource": "*"
-    },  
+    },
     {
       "Effect": "Allow",
       "Action": [
         "codebuild:BatchGetBuilds",
         "codebuild:StartBuild"
+      ],
+      "Resource": "*"
+    },  
+    {
+      "Effect": "Allow",
+      "Action": [
+        "ecr:DescribeImages"
       ],
       "Resource": "*"
     },
@@ -101,7 +108,7 @@
     {
       "Effect": "Allow",
       "Action": "codestar-connections:PassConnection",
-      "Resource": "arn:aws:codestar-connections:us-west-1:710789462061:connection/024d34e3-7643-4ffe-ab6a-93053546f46f"
+      "Resource": "*"
     },
     {
       "Effect": "Allow",

@@ -1,10 +1,27 @@
+variable "app" {
+  type = map
+  default = {}
+}
+
+variable "availability_zones" {
+  type = list
+  default = []
+}
+
+variable "region" {
+  type = string
+  default = ""
+}
+
+variable "network" {
+  type = map
+  default = {}
+}
+
 variable "cluster_name" {
   description = "The cluster_name"
 }
 
-variable "env_name" {
-  description = "which environment"
-}
 
 variable "image" {
   description = "The container image"
@@ -40,10 +57,6 @@ variable "subnet_ids" {
   description = "Subnet ids"
 }
 
-variable "region" {
-  description = "The region to use"
-  default     = "us-west-1"
-}
 
 variable "container_name" {
   description = "Container name"
@@ -62,5 +75,17 @@ variable "build_options" {
 
 variable "codestar_connector_credentials" {
   type = string
-  #default = "arn:aws:codestar-connections:us-west-1:710789462061:connection/024d34e3-7643-4ffe-ab6a-93053546f46f"
+}
+
+variable "codepipeline_events_enabled" {
+  default = false
+}
+
+variable "ssm_allowed_parameters" {
+  description = "List of ssm parameters that can be acceesed by the Fargate task during execution. Could be an ARN or just the name of the parameter path prefix"
+  default     = ""
+}
+
+variable "repository_name" {
+  description = "Full name of ECR Repository"
 }

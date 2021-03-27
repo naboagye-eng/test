@@ -22,36 +22,13 @@ variable "cluster_name" {
   description = "The cluster_name"
 }
 
-variable "container_name" {
-  description = "The container name"
-}
-
-
-variable "repository_url" {
-  description = "The ecr URI"
-}
-
-variable "db_endpoint" {
-  description = "RDS Host name"
-}
-
-variable "image" {
-  description = "The container image"
-}
-
-
 variable "vpc_id" {
   type        = string
   description = "The VPC id"
 }
 
-
 variable "app_repository_name" {
   description = "Name of ECR Repository"
-}
-
-variable "repository_name" {
-  description = "Full name of ECR Repository"
 }
 
 variable "environment" {
@@ -66,33 +43,6 @@ variable "container_port" {
   description = "ALB target port"
 }
 
-variable "desired_tasks" {
-  description = "Number of containers desired to run the application task"
-}
-
-variable "desired_task_cpu" {
-  description = "Task CPU Limit"
-}
-
-variable "desired_task_memory" {
-  description = "Task Memory Limit"
-}
-
-variable "min_tasks" {
-  description = "Minimum"
-}
-
-variable "max_tasks" {
-  description = "Maximum"
-}
-
-variable "cpu_to_scale_up" {
-  description = "CPU % to Scale Up the number of containers"
-}
-
-variable "cpu_to_scale_down" {
-  description = "CPU % to Scale Down the number of containers"
-}
 
 variable "helth_check_path" {
   description = ""
@@ -120,7 +70,3 @@ variable "alb_dns_name" {
   default = ""
 }
 
-variable "subnet_ids" {
-  type    = string
-  default = "module.vpc.aws_subnet.public.*.id"
-}

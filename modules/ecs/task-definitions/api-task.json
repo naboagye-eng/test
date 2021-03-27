@@ -16,10 +16,33 @@
         "logDriver": "awslogs",
         "options": {
           "awslogs-group": "${log_group}",
-          "awslogs-region": "us-west-1",
+          "awslogs-region": "${region}",
           "awslogs-stream-prefix": "${cluster_name}-${environment}-node-api"
         }
       },
-      "environment": [${environment_variables_str}]
+      "environment": [
+        ${environment_variables_str},
+        {
+          "name": "JUNGLESCOUT_USERNAME",
+          "value": "${JUNGLESCOUT_USERNAME}"
+        },
+        {
+          "name": "JUNGLESCOUT_PASSWORD",
+          "value": "${JUNGLESCOUT_PASSWORD}"
+        },
+        {
+          "name": "SQL_DB_USER",
+          "value": "${SQL_DB_USER}"
+        },
+        {
+          "name": "SQL_SERVER",
+          "value": "${SQL_SERVER}"
+        },
+        {
+          "name": "SQL_DB_PASSWORD",
+          "value": "${SQL_DB_PASSWORD}"
+        }
+      ]
     }
   ]
+

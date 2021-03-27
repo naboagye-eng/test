@@ -52,6 +52,26 @@ data "aws_iam_policy_document" "ecs_service_role" {
   }
 }
 
+data "template_file" "metric_dashboard" {
+  template = file("${path.module}/policies/basic-dashboard.json")
+  vars = {
+    region         = var.region 
+    alb_arn_suffix = "${var.cluster_name}-${var.environment}-alb-node"
+    cluster_name   = "${var.cluster_name}-${var.environment}-ecs-node"
+    service_name   = "${var.cluster_name}-${var.environment}-node-api"
+  }
+}
+
+resource "aws_cloudwatch_dashboard" "this" {
+  dashboard_name = "${var.cluster_name}-${var.environment}-metrics-dashboard"
+  dashboard_body = data.template_file.metric_dashboard.rendered
+}
+
+
+
+
+
+
 
 
 

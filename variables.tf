@@ -1,8 +1,23 @@
-variable "env_name" {
-  type        = string
-  description = "which environment"
-  default     = ""
+variable "app" {
+  type = map
+  default = {}
 }
+
+variable "availability_zones" {
+  type = list
+  default = []
+}
+
+variable "region" {
+  type = string
+  default = ""
+}
+
+variable "network" {
+  type = map
+  default = {}
+}
+
 
 variable "cluster_name" {
   type        = string
@@ -21,10 +36,26 @@ variable "vpc_id" {
   description = "vpc for provisioning resources"
 }
 
+variable "cidr" {
+  type        = list(string)
+  description = "vpc cidr block"
+}
+
 variable "public_subnets" {
   type        = list(string)
   description = "public subnet array (length>=2)"
 }
+
+variable "private_subnets" {
+  type        = list(string)
+  description = "private subnet array (length>=2)"
+}
+
+variable "azs" {
+  type        = list(string)
+  description = "availability zones"
+}
+
 
 variable "alb_port" {
   type        = string
@@ -40,6 +71,10 @@ variable "app_repository_name" {
   type        = string
   description = "ecr repository name"
   default     = ""
+}
+
+variable "repository_name" {
+  description = "Full name of ECR Repository"
 }
 
 variable "container_name" {
@@ -112,7 +147,8 @@ variable "environment_variables" {
   description = "ecs task environment variables"
 
   default = {
-    KEY = "value"
+    SQL_DB_NAME = "sleestak",
+    SQL_PORT = "3306",
   }
 }
 
@@ -142,7 +178,45 @@ variable "domain_name" {
 
 variable "codestar_connector_credentials" {
   type = string
-  #default = "arn:aws:codestar-connections:us-west-1:710789462061:connection/024d34e3-7643-4ffe-ab6a-93053546f46f"
   default = ""
 }
 
+variable "db_instance_type" {
+  description = "RDS instance type"
+  default     = ""
+}
+
+variable "db_name" {
+  description = "RDS DB name"
+  default     = ""
+}
+
+variable "db_profile" {
+  description = "RDS Profile"
+  default     = ""
+}
+
+variable "db_initialize" {
+  description = "RDS initialize"
+  default     = ""
+}
+
+variable "db_port" {
+  description = "RDS DB port"
+  default     = ""
+}
+
+variable "db_version" {
+  description = "RDS DB version"
+  default     = ""
+}
+
+variable "db_engine" {
+  description = "RDS DB engine"
+  default     = ""
+}
+
+variable "db_allocated_storage" {
+  description = "RDS DB allocated_storage"
+  default     = ""
+}
