@@ -18,7 +18,6 @@ variable "network" {
   default = {}
 }
 
-
 variable "cluster_name" {
   type        = string
   description = "ecs cluster name"
@@ -55,7 +54,6 @@ variable "azs" {
   type        = list(string)
   description = "availability zones"
 }
-
 
 variable "alb_port" {
   type        = string
@@ -170,6 +168,12 @@ variable "ssl_certificate_arn" {
   default     = ""
 }
 
+variable "ssl_cert" {
+  type = string
+  default = ""
+}
+
+
 variable "domain_name" {
   description = "domain name. (must be created in route53)"
   type        = string
@@ -218,5 +222,25 @@ variable "db_engine" {
 
 variable "db_allocated_storage" {
   description = "RDS DB allocated_storage"
+  default     = ""
+}
+
+variable "JUNGLESCOUT_USERNAME" {
+  description = "RDS JS username"
+  default     = ""
+}
+
+variable "JUNGLESCOUT_PASSWORD" {
+  description = "RDS JS password"
+  default     = ""
+}
+
+variable "SQL_DB_USER" {
+  description = "RDS DB user"
+  default     = ""
+}
+
+variable "SQL_DB_PASSWORD" {
+  description = "RDS DB password"
   default     = ""
 }

@@ -1,6 +1,15 @@
+data "aws_secretsmanager_secret_version" "creds" {
+  secret_id = "ss-dev-db-creds"
+}
+
+locals {
+  ss-dev-db-creds = jsondecode(
+    data.aws_secretsmanager_secret_version.creds.secret_string
+  )
+}
+
 module "pipeline" {
   source = "./modules/pipeline"
-  #codepipeline_events_enabled    = true
   cluster_name                   = var.cluster_name
   environment                    = var.environment
   #env_name                       = var.env_name
@@ -12,14 +21,18 @@ module "pipeline" {
   git_repository                 = var.git_repository
   repository_url                 = module.ecs.repository_url
   app_service_name               = module.ecs.service_name
+  environment_variables          = var.environment_variables
   vpc_id                         = var.vpc_id
+  db_endpoint                    = module.rds.db_endpoint
 
   build_options                  = var.build_options
   build_args                     = var.build_args
-
-  #subnet_ids                     = "module.vpc.aws_subnet.public*.id"
-  #subnet_ids                     = "module.vpc.${var.network["publicAz1, publicAz1"]}"
   subnet_ids                     = var.public_subnets
+
+  JUNGLESCOUT_USERNAME           = local.ss-dev-db-creds.JUNGLESCOUT_USERNAME
+  JUNGLESCOUT_PASSWORD           = local.ss-dev-db-creds.JUNGLESCOUT_PASSWORD
+  SQL_DB_USER                    = local.ss-dev-db-creds.SQL_DB_USER
+  SQL_DB_PASSWORD                = local.ss-dev-db-creds.SQL_DB_PASSWORD
 }
 
 module "ecs" {
@@ -30,8 +43,7 @@ module "ecs" {
   image               = var.image
   region              = var.region
   repository_url      = module.ecs.repository_url
-  #db_endpoint         = module.rds.db_endpoint
-  db_endpoint         = "ss-dev-db-instance.cwmypylwscux.us-west-1.rds.amazonaws.com"
+  db_endpoint         = module.rds.db_endpoint
   container_name      = var.container_name
   app_repository_name = var.app_repository_name
   repository_name     = var.repository_name
@@ -51,8 +63,6 @@ module "ecs" {
   domain_name           = var.domain_name
 
   availability_zones    = var.public_subnets
-  #availability_zones = "module.vpc.aws_subnet.public*.id"
-  #availability_zones = "aws_subnet.public.cidr_block"
 }
 
 module "cdn" {
@@ -67,8 +77,14 @@ module "cdn" {
   container_port      = var.container_port
   helth_check_path      = var.helth_check_path
   environment_variables = var.environment_variables
-  ssl_certificate_arn   = var.ssl_certificate_arn
+  ssl_certificate_arn   = var.ssl_cert
   domain_name           = var.domain_name
+
+  origin_force_destroy     = true
+  cors_allowed_headers     = ["*"]
+  cors_allowed_methods     = ["GET", "HEAD", "PUT"]
+  cors_allowed_origins     = ["*"]
+  cors_expose_headers      = ["ETag"]  
 }
 
 module "rds" {
@@ -85,6 +101,6 @@ module "rds" {
   environment                    = var.environment
   vpc_id                         = var.vpc_id
   cidr                           = var.cidr
-  subnet_ids                     = var.private_subnets
-  #availability_zone              = var.region
+  #subnet_ids                     = var.private_subnets
+  subnet_ids                     = var.public_subnets
 }

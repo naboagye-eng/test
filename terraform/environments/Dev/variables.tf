@@ -32,17 +32,17 @@ variable "network" {
 
 variable "certificate_arn" {
   type = string
-  default = "arn:aws:acm:us-west-1:710789462061:certificate/5841c2c4-403a-436b-bf03-91f891677fba"
+  default = "arn:aws:acm:us-west-1:710789462061:certificate/ea97c376-f4f3-401b-af36-63dc6c9d9b9f"
 }
 
 variable "domain" {
   type = string
-  default = "isvc.tech"
+  default = "dtmediagrp.com"
 }
 
 variable "ssl_cert" {
   type = string
-  default = "*.isvc.tech"
+  default = "*.dtmediagrp.com"
 }
 
 variable "node_volume_size" {
