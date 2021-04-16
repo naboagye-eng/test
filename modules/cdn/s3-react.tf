@@ -1,5 +1,5 @@
 resource "aws_s3_bucket" "bucket" {
-  bucket = "${var.cluster_name}-${var.environment}-react-app-bucket"
+  bucket = "${var.cluster_name}-${var.environment}-aop-bucket"
   acl    = "public-read"
   force_destroy = true
 
@@ -7,14 +7,6 @@ resource "aws_s3_bucket" "bucket" {
     index_document = "index.html"
     error_document = "error.html"
   }  
-
-  cors_rule {
-    allowed_headers = ["*"]
-    allowed_methods = ["PUT", "POST"]
-    allowed_origins = ["*"]
-    expose_headers  = ["ETag"]
-    max_age_seconds = 3000
-  }
 }
 
 
@@ -25,7 +17,7 @@ resource "aws_s3_bucket_policy" "OAI_policy" {
 
 data "aws_iam_policy_document" "s3_policy" {
   statement {
-    actions   = ["s3:GetObject"]
+    actions   = ["*"]
     resources = ["${aws_s3_bucket.bucket.arn}/*"]
 
     principals {
