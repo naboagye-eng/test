@@ -42,7 +42,6 @@ resource "aws_cloudfront_distribution" "distribution" {
       }
     }
 
-    #viewer_protocol_policy = "allow-all"
     viewer_protocol_policy = "redirect-to-https"
   }
 
@@ -53,7 +52,6 @@ resource "aws_cloudfront_distribution" "distribution" {
     target_origin_id = "ELB"
     cache_policy_id  = "${aws_cloudfront_cache_policy.main.id}"
 
-    #viewer_protocol_policy = "allow-all"
     viewer_protocol_policy = "redirect-to-https"
   }
   restrictions {
@@ -125,4 +123,3 @@ resource "aws_route53_record" "website_cdn_redirect_record" {
 
   records = ["${aws_cloudfront_distribution.distribution.domain_name}"]
 }
-

@@ -24,20 +24,22 @@ variable "network" {
   default = {}
 }
 
+variable "cidr" {
+  type        = string
+  description = "vpc cidr block"
+}
+
+variable "vpc_peering_connection_id" {
+  type        = string
+  description = "vpc peering vpc_peering_connection_id"
+}
+
 variable "cluster_name" {
   description = "The cluster_name"
 }
 
-variable "image" {
-  description = "The container image"
-}
-
 variable "app_repository_name" {
   description = "ECR Repository name"
-}
-
-variable "app_service_name" {
-  description = "Service name"
 }
 
 variable "git_repository" {
@@ -61,6 +63,10 @@ variable "environment" {
 
 variable "repository_url" {
   description = "The url of the ECR repository"
+}
+
+variable "repository_name" {
+  description = "The name of the ECR repository"
 }
 
 variable "subnet_ids" {
@@ -92,10 +98,6 @@ variable "build_options" {
   description = "Docker build options. ex: '-f ./build/Dockerfile' "
 }
 
-variable "codestar_connector_credentials" {
-  type = string
-}
-
 variable "codepipeline_events_enabled" {
   default = false
 }
@@ -103,10 +105,6 @@ variable "codepipeline_events_enabled" {
 variable "ssm_allowed_parameters" {
   description = "List of ssm parameters that can be acceesed by the Fargate task during execution. Could be an ARN or just the name of the parameter path prefix"
   default     = ""
-}
-
-variable "repository_name" {
-  description = "Full name of ECR Repository"
 }
 
 variable "JUNGLESCOUT_USERNAME" {
@@ -134,8 +132,18 @@ variable "APP_WEB_URL" {
   default     = ""
 }
 
+variable "ASANA_SECRET_KEY" {
+  description = "secret key"
+  default     = ""
+}
+
 variable "WORDPRESS_SECRET_KEY" {
   description = "WP secret"
+  default     = ""
+}
+
+variable "STG_SQL_SERVER" {
+  description = "staging db host"
   default     = ""
 }
 
